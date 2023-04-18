@@ -1,6 +1,5 @@
 ///////////Nikko et Loic /////////
 
-
 const courses = [
   {
     picture: "",
@@ -104,8 +103,27 @@ let sectionMain = document.querySelector("section.main_container");
 
 courses.forEach((food) => {
   let section = document.createElement("section");
-  section.innerHTML = `<img src= ${food.picture} > <span class="title_food" > ${food.title} </span> <span class="category_food"> Catégorie: ${food.category} </span> <span class="aliments_food"> Aliments: ${food.description} </span> <span class="price_food"> Prix: ${food.price} </span>   <div class="button_achat"><img class="bouton_achat" src="./img/png-clipart-online-shopping-computer-icons-shopping-cart-software-shopping-cart-angle-rectangle.png"></div> `;
+  section.innerHTML = `<img src= ${food.picture} > <div class="info"><span class="title_food" > ${food.title} </span> <span class="category_food"> Catégorie: ${food.category} </span> <span class="aliments_food"> Aliments: ${food.description} </span> <span class="price_food"> Prix: ${food.price} </span>   <div class="button_achat"><img class="bouton_achat" src="./img/png-clipart-online-shopping-computer-icons-shopping-cart-software-shopping-cart-angle-rectangle.png"></div> </div> `;
 
   sectionMain.appendChild(section);
   section.setAttribute("class", "main_container_card");
 });
+
+/////////////////////////
+
+function categoryPoisson() {
+  courses.forEach((food) => {
+    // Passer chaque élément qui ne contient pas "Poisson" dans le tableau de catégories en display: none
+    // for(let i; i<food.category.length; i++){
+    //     if(food.category[i] != "Poisson"){
+
+    //     }
+
+    // }
+    if (!food.category.includes("Poisson")) {
+      console.log(food);
+      food.style.display = "none";
+      // document.querySelector("main_container_card").style.display = "none";
+    }
+  });
+}
