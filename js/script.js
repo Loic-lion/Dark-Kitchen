@@ -215,28 +215,33 @@ function sortPrice() {
 }
 
 ///////////////////////////////PANIER//////////////////////////////////////
-// const cart = document.querySelector("footer_panier");
-// const buttonCart = document.querySelectorAll("button_achat");
 
-// function display() {
-//   console.log("Ok");
-// }
-// buttonCart.addEventListener("click", display);
 
-// buttonCart.forEach((but) => {
-//   but.addEventListener("click", display);
+
+
+// const buttonCart = document.querySelectorAll(".button_achat");
+// const cart = document.querySelector(".footer_panier");
+
+// buttonCart.forEach(function (but) {
+//   but.addEventListener("click", function () {
+//     const sectionParent = but.closest("div");
+
+//     const sectionClone = sectionParent.cloneNode(true);
+//     const categoryToRemove = sectionClone.querySelector(".category_food");
+//     const alimentsToRemove = sectionClone.querySelector(".aliments_food");
+//     const buttonToRemove = sectionClone.querySelector(".button_achat");
+//     categoryToRemove.remove();
+
+//     alimentsToRemove.remove();
+//     buttonToRemove.remove();
+
+//     cart.appendChild(sectionClone);
+//   });
 // });
+//////////////////////////ADDITION PRODUITS///////////////////////////
 
-const buttonCart = document.querySelectorAll(".button_achat");
-const cart = document.querySelector(".footer_panier");
-
-buttonCart.forEach(function (but) {
-  but.addEventListener("click", function () {
-    const sectionParent = but.closest("div");
-
-    const sectionClone = sectionParent.cloneNode(true);
-    delete sectionClone["description"];
-    console.log(sectionClone);
-    cart.appendChild(sectionClone);
-  });
-});
+const totalPrice = document.createElement("div");
+totalPrice.innerHTML = "Prix total: ";
+cart.appendChild(totalPrice);
+const prixPanier = cart.querySelectorAll("span.price_food");
+console.log(prixPanier);
