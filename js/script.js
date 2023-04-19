@@ -1,5 +1,5 @@
-/////////// Nikko et Loic /////////
-// Variables
+/////////// Nikko et Loic ///////////
+/********** VARIABLES **********/
 const courses = [
     {
         id: 1,
@@ -106,18 +106,22 @@ const buttonViande = document.getElementById("viande-button");
 const buttonVege = document.getElementById("vegetarien-button");
 const buttonDessert = document.getElementById("dessert-button");
 const buttonWok = document.getElementById("wok-button");
-const cart = document.querySelector("footer_panier");
-const buttonCart = document.querySelectorAll("button_achat");
+const cartItems = document.querySelector(".cart_items");
+const subTotal = document.querySelector(".subtotal");
+const totalItemsInCart = document.querySelector(".cart_total_items");
+// Pour conserver les éléments du panier lorsque l'on rafraichit la page :
+// let cart = JSON.parse(localStorage.getItem("CART")) || [];
+let cart = [];
 
-
-// Functions
-// Sort by price
+/********** FONCTIONS **********/
+// Tri par prix
 function sortPrice(){
     courses.sort((a, b) => (a.price > b.price ? 1 : -1));
 }
-// All filters
-////////////////////////////TOUS////////////////////////////
-function tousSections() {
+
+/*** Filtres ***/
+//Tout
+function toutSections() {
     const sectionsAll = document.querySelectorAll('section');
     
     for (let i = 0; i < sectionsAll.length; i++) {
@@ -125,7 +129,7 @@ function tousSections() {
     }
 }
 
-////////////////////////////POISSON////////////////////////////
+//Poisson
 function hideNonPoissonSections(){
     const sections = document.querySelectorAll('section[data-category]');
     
@@ -140,7 +144,7 @@ function hideNonPoissonSections(){
     }
 }
 
-///////////////////////////VIANDE////////////////////////////
+//Viande
 function hideNonViandeSections(){
     const sections = document.querySelectorAll('section[data-category]');
   
@@ -155,7 +159,7 @@ function hideNonViandeSections(){
     }
 }
   
-///////////////////////////VEGETARIEN////////////////////////////
+//Vegetarien
 function hideNonVegetarienSections(){
     const sections = document.querySelectorAll('section[data-category]');
   
@@ -170,7 +174,7 @@ function hideNonVegetarienSections(){
     }
 }  
   
-///////////////////////////DESSERT////////////////////////////
+//Dessert
 function hideNonDessertSections(){
     // Récupérer toutes les sections avec l'attribut "data-category"
     const sections = document.querySelectorAll('section[data-category]');
@@ -186,7 +190,7 @@ function hideNonDessertSections(){
     }
 }
     
-///////////////////////////WOK////////////////////////////
+//Wok
 function hideNonWokSections(){
     const sections = document.querySelectorAll('section[data-category]');
   
@@ -201,52 +205,110 @@ function hideNonWokSections(){
     }
 }
 
-// Interact with cart
+/*** Panier ***/
+// Ajouter un élément au panier
+function addToCart(id) { 
+    // Vérifier si le produit est déjà présent dans le panier
+    if(cart.some((item) => item.id === id)){
+        changeUnits("plus", id);
+    }else{
+        const item = courses.find((course) => course.id === id);
+        cart.push({
+            ...item,
+            units: 1,
+        });
+    }
+    updateCart();
+}
 
- function removeFromCart(){
+// Mettre à jour le panier (=réafficher le panier et le sous-total avec les modifications effectuées)
+function updateCart(){
+    renderCartItems();
+    renderSubTotal();
 
- }
+    // Enregistrer le panier dans le stockage local
+    // localStorage.setItem("CART", JSON.stringify(cart));
+}
 
-// Program
+// Calculer le montant total du panier
+function renderSubTotal(){
+    let totalPrice = 0;
+    let totalItems = 0;
+
+    cart.forEach((item) => {
+        totalPrice += (item.price * item.units);
+        totalItems += item.units;
+    });
+
+    subTotal.innerHTML = `Sous-total: ${totalPrice.toFixed(2)}€`;
+    totalItemsInCart.innerHTML = `Panier: ${totalItems} plats`
+}
+
+// Afficher les éléments séléctionnés au panier
+function renderCartItems(){
+    cartItems.innerHTML = ""; // vider le panier
+    cart.forEach((item) => {
+        cartItems.innerHTML += 
+        `<div class="cart_item">
+            <button class="btn remove" onclick="removeFromCart(${item.id})">Supprimer</button>
+            <div class="item_title">
+                <h4>${item.title}</h4>
+            </div>
+            <div class="unit_price">
+                <p>${item.price}€</p>
+            </div>
+            <div class="number_units">
+                <div class="btn minus" onclick="changeUnits('minus', ${item.id})">-</div>
+                <div class="units">${item.units}</div>
+                <div class="btn plus" onclick="changeUnits('plus', ${item.id})">+</div>
+            </div>
+        </div>`;
+    });
+}
+
+// Supprimer un élément du panier
+function removeFromCart(id){
+    cart = cart.filter( (item) => item.id !== id);
+
+    updateCart();
+}
+
+// Changer le nombre d'unité d'un élément du panier
+function changeUnits(action, id){
+    cart = cart.map((item) => {
+        
+        let units = item.units;
+        
+        if(item.id === id){
+            if(action === "minus" && units > 1){
+                units--;
+            }else if(action === "plus" && units < 10){
+                units++;
+            }
+        }
+        return {
+            ...item,
+            units,
+        };
+    });
+    updateCart();
+}
+
+/********** PROGRAMME **********/
+// Afficher les produits du tableau d'objets
 courses.forEach((food) => {
     let section = document.createElement("section");
     section.setAttribute("data-category", food.category);
-    section.innerHTML = `<img src= ${food.picture} > <div class="info"><span class="title_food" > ${food.title} </span> <span class="category_food"> Catégorie: ${food.category} </span> <span class="aliments_food"> Description: ${food.description} </span> <span class="price_food"> Prix: ${food.price} </span>   <button id="${food.id}"class="button_achat">Ajouter au panier</button></div>`;
+    section.innerHTML = `<img src= ${food.picture} > <div class="info"><span class="title_food" > ${food.title} </span> <span class="category_food"> Catégorie: ${food.category} </span> <span class="aliments_food"> Description: ${food.description} </span> <span class="price_food"> Prix: ${food.price} </span>   <button class="button_achat" onclick="addToCart(${food.id})">Ajouter au panier</button></div>`;
     sectionMain.appendChild(section);
     section.setAttribute("class", "main_container_card");
 });
 
-// Ajouter chaque élément dans le panier lorsque l'on clique sur le bouton achat
-// Additionner les prix pour obtenir le montant total
-// Si l'article est déjà présent dans le panier on incrémente la quantité et on additionne les prix
-// cart = div contenant tout le panier (y ajouter les noms et prix)
-// Panier = liste d'objets 
+// Appel de fonction de mise à jour (si on rafraichit la page on garde le contenu du panier)
+// updateCart();
 
-function display(){
-    alert("Ok");
-}
-// buttonCart.forEach(function (but){
-//     but.addEventListener("click", function () {
-//       const objetClone = courses[0];
-//       console.log(objetClone);
-//       const divClone = document.createElement("div");
-//       divClone.innerHTML = `<div class="info"><span class="title_food" > ${objetClone.title} </span>   <span class="price_food"> Prix: ${objetClone.price} </span> </div>`;
-//       cart.appendChild(divClone);
-//     });
-// });
-
-// en cours de création
-function addToCart(event) { 
-    let divCart = document.createElement("div");
-    
-    let idBut = event.target.getAttribute('id');
-    divCart.innerHTML = idBut;
-
-    cart.appendChild(divCart);
-}
-
-// Events
-buttonTous.addEventListener("click", tousSections);
+// Evenements
+buttonTous.addEventListener("click", toutSections);
 buttonPoisson.addEventListener("click", hideNonPoissonSections);
 buttonViande.addEventListener("click", hideNonViandeSections);
 buttonVege.addEventListener("click", hideNonVegetarienSections);
