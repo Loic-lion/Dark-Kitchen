@@ -87,4 +87,46 @@ body{
 //     }
 }
 
-
+@media only screen and (min-width: 600px){
+    body {
+        .main_head {  
+            display: grid;
+            grid-template-columns: 1fr 1fr 2.5fr;
+            grid-template-rows: 0.5fr 1fr 0.5fr;
+            gap: 0px 0px;
+            grid-auto-flow: row;
+            grid-template-areas:
+              "h1 h1 img"
+              "p p img"
+              ". . .";
+          }
+          
+          p {
+            grid-area: p;
+            padding-top: 50px;
+            padding-right: 125px;
+            text-align: justify;
+            font-family: Asap, sans-serif;
+            line-height: 40px;
+          }
+          
+          h1 {
+            grid-area: h1;
+            font-family: Asap, sans-serif;
+            display: flex;
+            text-align: center;
+            font-weight: bolder;
+            size: 75px;
+            padding: 11%;
+            padding-bottom: 7%;
+          }
+          
+          img {
+            grid-area: img;
+            width: 250px;
+            padding-top: 125px;
+            padding-left: 25%;
+          }
+          
+    }
+}
