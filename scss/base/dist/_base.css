@@ -1,0 +1,37 @@
+@import url("https://fonts.googleapis.com/css2?family=Asap:wght@500&display=swap");
+body .main_head {
+  background-color: #e3a9e9;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  gap: 0px 0px;
+  grid-template-areas: "h1 img img" "p img img" "p autre autre";
+}
+body h1 {
+  grid-area: h1;
+  display: flex;
+  text-align: center;
+  font-weight: bold;
+  padding-top: 33%;
+  color: #9b3b9e;
+}
+body p {
+  grid-area: p;
+  padding-left: 15px;
+  padding-bottom: 10px;
+  text-align: left;
+  color: #501042;
+}
+body img {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  gap: 0px 0px;
+  grid-template-areas: ". . ." ". . ." ". . .";
+  grid-area: img;
+  width: 225px;
+  padding: 33px;
+}
+body .autre {
+  grid-area: autre;
+}
