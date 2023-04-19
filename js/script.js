@@ -2,6 +2,7 @@
 
 const courses = [
   {
+    id: 0,
     picture: "img/wok-porc-gambas-langoustines.png",
     title: "Wok de porc, crevettes et langoustines",
     category: ["Asiatique", " Wok", " Viande", " Poisson"],
@@ -10,6 +11,7 @@ const courses = [
     price: 14.5,
   },
   {
+    id: 1,
     picture: "img/risotto-calamar-chorizo.png",
     title: "Risotto calamars et chorizo",
     category: ["Européen", " Wok", " Viande", " Poisson"],
@@ -18,6 +20,7 @@ const courses = [
     price: 11.95,
   },
   {
+    id: 2,
     picture: "img/quiche-roquette.png",
     title: "Quiche à la roquette et au jambon cru",
     category: ["Européen", " Viande"],
@@ -26,6 +29,7 @@ const courses = [
     price: 8.5,
   },
   {
+    id: 3,
     picture: "img/legumes-vapeur.png",
     title: "Meunière de fruits de mer aux légumes vapeur",
     category: ["Vapeur", " Poisson"],
@@ -34,6 +38,7 @@ const courses = [
     price: 13.85,
   },
   {
+    id: 4,
     picture: "img/recette_Salade_composee.png",
     title: "Salade composée",
     category: ["Vegetarien"],
@@ -42,6 +47,7 @@ const courses = [
     price: 7.5,
   },
   {
+    id: 5,
     picture: "img/pates-saumon.png",
     title: "Spaghettis au saumon fumé",
     category: ["Européen", " Poisson"],
@@ -50,6 +56,7 @@ const courses = [
     price: 9.95,
   },
   {
+    id: 6,
     picture: "img/bowl-dish-food-produce-vegetable-soup.png",
     title: "Potage aux topinambours et salade de saison",
     category: ["Vegetarien", " Américain"],
@@ -58,6 +65,7 @@ const courses = [
     price: 7.75,
   },
   {
+    id: 7,
     picture: "img/salade-chevre-chaud.png",
     title: "Salade au chèvre chaud",
     category: ["Vegetarien"],
@@ -66,6 +74,7 @@ const courses = [
     price: 8.5,
   },
   {
+    id: 8,
     picture: "img/mousse-chocolat-blanc.png",
     title: "Mousse au chocolat blanc",
     category: ["Dessert", " Vegetarien"],
@@ -74,6 +83,7 @@ const courses = [
     price: 6.95,
   },
   {
+    id: 9,
     picture: "img/compote-de-rhubarbe.png",
     title: "Compote de rhubarbe",
     category: ["Dessert", " Vegetarien"],
@@ -82,6 +92,7 @@ const courses = [
     price: 6.75,
   },
   {
+    id: 10,
     picture: "img/rognon-veau-madere.png",
     title: "Rognons de veau au Madère",
     category: ["Européen", " Viande"],
@@ -90,6 +101,7 @@ const courses = [
     price: 10.75,
   },
   {
+    id: 11,
     picture: "img/salade-cressonniere.png",
     title: "Salade cressonnière",
     category: ["Vegetarien"],
@@ -104,7 +116,7 @@ let sectionMain = document.querySelector("section.main_container");
 courses.forEach((food) => {
   let section = document.createElement("section");
   section.setAttribute("data-category", food.category);
-  section.innerHTML = `<img src= ${food.picture} > <div class="info"><span class="title_food" > ${food.title} </span> <span class="category_food"> Catégorie: ${food.category} </span> <span class="aliments_food"> Description: ${food.description} </span> <span class="price_food"> Prix: ${food.price} </span>   <button class="button_achat">Ajouter au panier</button></div>  `;
+  section.innerHTML = `<img src= ${food.picture} > <div class="info"><span class="title_food" > ${food.title} </span> <span class="category_food"> Catégorie: ${food.category} </span> <span class="aliments_food"> Description: ${food.description} </span> <span class="price_food"> Prix: ${food.price} </span>   <button id="${food.id}"class="button_achat" onclick="addToCart(${food.id})">Ajouter au panier</button></div>  `;
 
   sectionMain.appendChild(section);
   section.setAttribute("class", "main_container_card");
@@ -215,9 +227,12 @@ function sortPrice() {
 }
 
 ///////////////////////////////PANIER//////////////////////////////////////
+// const cart = document.querySelector(".footer_panier");
 
-
-
+// function myFunction(event) {
+//   let text = event.target.getAttribute('id');
+//   document.getElementById("demo").innerHTML = text;
+// }
 
 // const buttonCart = document.querySelectorAll(".button_achat");
 // const cart = document.querySelector(".footer_panier");
@@ -240,8 +255,54 @@ function sortPrice() {
 // });
 //////////////////////////ADDITION PRODUITS///////////////////////////
 
-const totalPrice = document.createElement("div");
-totalPrice.innerHTML = "Prix total: ";
-cart.appendChild(totalPrice);
-const prixPanier = cart.querySelectorAll("span.price_food");
-console.log(prixPanier);
+// const totalPrice = document.createElement("div");
+// totalPrice.innerHTML = "Prix total: ";
+// cart.appendChild(totalPrice);
+// const prixPanier = cart.querySelectorAll("span.price_food");
+// console.log(prixPanier);
+
+////////////////////////////PANIER//////////////////////////////////
+
+const cartItems = document.querySelector(".cart_items");
+
+let cart = [];
+function addToCart(id) {
+  // Vérifier si le produit est déjà présent dans le panier
+  if (cart.some((item) => item.id === id)) {
+    alert("product already in cart");
+  } else {
+    const item = courses.find((course) => course.id === id);
+    cart.push({
+      ...item,
+      units: 1,
+    });
+    console.log(cart);
+  }
+  // console.log(id);
+  // console.log(item);
+  updateCart();
+}
+function updateCart() {
+  renderCartItems();
+  // renderSubTotal();
+}
+
+function renderCartItems() {
+  cartItems.innerHTML = "";
+  cart.forEach((item) => {
+    cartItems.innerHTML += `
+        <div class="cart_item">
+            <div class="item_info">
+                <p>${item.title}€</p>
+            </div>
+            <div class="unit_price">
+                <p>${item.price}</p>
+            </div>
+            <div class="units">
+                <div class="btn minus">-</div>
+                <div class="number">${item.units}</div>
+                <div class="btn plus">+</div>
+            </div>
+        </div>`;
+  });
+}
