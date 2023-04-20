@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Asap:wght@500&display=swap');
 //mobile style
 body{
-
+  main{
     .main_head{
         background-color: rgb(227, 169, 233);
         display: grid; 
@@ -43,7 +43,7 @@ body{
 
       }
       .autre { grid-area: autre; }
-    
+    } 
 //     main{
 //         .main_head{
 //             background-color: rgb(227, 169, 233);
