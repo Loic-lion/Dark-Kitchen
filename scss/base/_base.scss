@@ -1,5 +1,29 @@
-//Style commun à tous les éléments
-//Style commun à tous les éléments
+body {
+  line-height: 1;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+blockquote,
+q {
+  quotes: none;
+}
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: "";
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
 
 /* Reset de la feuille de style par défaut */
 * {
@@ -16,8 +40,6 @@ body {
 }
 
 /* En-tête de la page */
-///Dark Mode///
-
 .dark_mode {
   background-color: black;
   color: white;
@@ -36,7 +58,15 @@ header {
   height: 100px;
   width: 700px;
 }
-
+.cart {
+  position: absolute;
+  top: 0;
+  right: -300px;
+  width: 300px;
+  height: 100%;
+  background-color: white;
+  z-index: 9999;
+}
 nav ul {
   display: flex;
   list-style: none;
@@ -64,12 +94,37 @@ button {
   cursor: pointer;
   transition: color 0.2s ease-in-out;
 }
-
+.bouton_triage {
+  flex-direction: row;
+  padding: 1rem;
+  align-items: center;
+  justify-content: center;
+}
 button:hover {
   color: #ff2b2b;
 }
-
+.bouton_triage {
+  color: rgba(66, 66, 66, 255);
+  font-weight: 900;
+}
+.bouton_triage:hover {
+  background-color: #cccccc77;
+}
+.btn.remove {
+  color: #ff2b2b;
+}
+.fa-shopping-cart {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
 /* Main content */
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 .main_head {
   display: flex;
   flex-direction: column;
@@ -124,7 +179,6 @@ button:hover {
 }
 
 footer {
-  background-color: #111;
   color: #fff;
   padding: 50px 0;
   font-size: 14px;
@@ -137,15 +191,22 @@ footer {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  background-color: #941616;
+  
 }
 
 .footer-info {
   flex-basis: 40%;
+  text-align: right;
+  justify-content: flex-end;
+  display: flex;
 }
 
 .footer-links {
   flex-basis: 30%;
-  text-align: center;
+  text-align: right;
+  justify-content: flex-end;
+  display: flex;
 }
 
 .footer-links ul {
@@ -156,7 +217,8 @@ footer {
 
 .footer-links {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  
 }
 
 .footer-links a {
@@ -191,59 +253,47 @@ footer {
     flex-direction: column;
     align-items: center;
   }
-
   .header_logo {
     height: auto;
     width: 100%;
     margin-bottom: 1rem;
   }
-
   nav {
     margin-top: 1rem;
     text-align: center;
   }
-
   nav li {
     margin: 0.5rem;
   }
-
   .main_head {
     padding: 2rem;
   }
-
   .main_head h1 {
     font-size: 2rem;
   }
-
   .main_head_description {
     font-size: 1rem;
   }
-
   .main_container {
     padding: 2rem;
   }
-
   .card {
     margin-bottom: 2rem;
   }
-
   footer {
     padding: 30px 0;
     text-align: center;
   }
-
   .footer-info,
   .footer-links,
   .footer-social {
     flex-basis: 100%;
   }
-
   .footer-links {
     margin-top: 1rem;
   }
-
   .footer-social {
     justify-content: center;
     margin-top: 1rem;
   }
-}
+} /*# sourceMappingURL=main.css.map */

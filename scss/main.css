@@ -53,6 +53,33 @@ table {
   border-spacing: 0;
 }
 
+body {
+  line-height: 1;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+blockquote,
+q {
+  quotes: none;
+}
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: "";
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
 /* Reset de la feuille de style par défaut */
 * {
   margin: 0;
@@ -87,6 +114,16 @@ header {
   width: 700px;
 }
 
+.cart {
+  position: absolute;
+  top: 0;
+  right: -300px;
+  width: 300px;
+  height: 100%;
+  background-color: white;
+  z-index: 9999;
+}
+
 nav ul {
   display: flex;
   list-style: none;
@@ -115,11 +152,44 @@ button {
   transition: color 0.2s ease-in-out;
 }
 
+.bouton_triage {
+  flex-direction: row;
+  padding: 1rem;
+  align-items: center;
+  justify-content: center;
+}
+
 button:hover {
   color: #ff2b2b;
 }
 
+.bouton_triage {
+  color: rgb(66, 66, 66);
+  font-weight: 900;
+}
+
+.bouton_triage:hover {
+  background-color: rgba(204, 204, 204, 0.4666666667);
+}
+
+.btn.remove {
+  color: #ff2b2b;
+}
+
+.fa-shopping-cart {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
 /* Main content */
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .main_head {
   display: flex;
   flex-direction: column;
@@ -174,7 +244,6 @@ button:hover {
 }
 
 footer {
-  background-color: #111;
   color: #fff;
   padding: 50px 0;
   font-size: 14px;
@@ -187,15 +256,21 @@ footer {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  background-color: #941616;
 }
 
 .footer-info {
   flex-basis: 40%;
+  text-align: right;
+  justify-content: flex-end;
+  display: flex;
 }
 
 .footer-links {
   flex-basis: 30%;
-  text-align: center;
+  text-align: right;
+  justify-content: flex-end;
+  display: flex;
 }
 
 .footer-links ul {
@@ -206,7 +281,7 @@ footer {
 
 .footer-links {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
 }
 
 .footer-links a {
@@ -284,4 +359,4 @@ footer {
     justify-content: center;
     margin-top: 1rem;
   }
-}/*# sourceMappingURL=main.css.map */
+} /*# sourceMappingURL=main.css.map */
