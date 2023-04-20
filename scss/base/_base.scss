@@ -37,6 +37,11 @@ header {
   width: 700px;
 }
 
+.nav_header {
+  background-color: #ccc;
+  padding: 10px;
+  border-radius: 10px;
+}
 nav ul {
   display: flex;
   list-style: none;
@@ -64,7 +69,9 @@ button {
   cursor: pointer;
   transition: color 0.2s ease-in-out;
 }
-
+.btn.remove {
+  color: #ff2b2b;
+}
 button:hover {
   color: #ff2b2b;
 }
@@ -245,5 +252,105 @@ footer {
   .footer-social {
     justify-content: center;
     margin-top: 1rem;
+  }
+}
+main {
+  font-family: $font-main;
+  font-size: 1em;
+}
+.main_container {
+  display: flex;
+  // flex-flow: row wrap;
+  flex-direction: column;
+  // justify-content: center;
+  margin: 50px 20px;
+  gap: $space-m;
+  .main_container_card {
+    // display: flex;
+    // flex-direction: row;
+    // justify-content: flex-start;
+    background-color: rgba(250, 235, 215, 1);
+    max-height: 1200px;
+    // height: 500px;
+    border-radius: 30px;
+    box-shadow: $small-shadow;
+    img {
+      // z-index: 2;
+      // width: 200px;
+      width: 100%;
+      height: auto;
+      border-radius: 30px 30px 0px 0px;
+    }
+    .info {
+      // z-index:1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: rgba(250, 235, 215, 1);
+      font-family: $font-text;
+      padding: 20px 35px;
+      border-radius: 20px 20px 30px 30px;
+      position: relative;
+      top: -25px;
+    }
+    .title_food {
+      font-family: $font-main;
+      font-weight: 900;
+      font-size: 1.5em;
+      text-align: center;
+    }
+    .category_food {
+      width: 100%;
+      margin: 20px 0px;
+      background-color: rgba(216, 191, 158, 0.5);
+      border-radius: 10px;
+      text-align: center;
+      line-height: 30px;
+    }
+    .aliments_food {
+      // display: none;
+      padding-bottom: 20px;
+      text-overflow: clip;
+    }
+    .price_food {
+      padding-bottom: 10px;
+      font-weight: 700;
+      font-size: 1.2em;
+    }
+    .button_achat {
+      // background-color: rgb(240, 147, 147);
+      padding: 5px;
+      // width: 100%;
+      width: 100px;
+      height: auto;
+      border: 2px solid white;
+      border-radius: 10px;
+      box-shadow: $small-shadow;
+      text-align: center;
+      // filter: blur(2px);
+      img {
+        // width: 100px;
+        width: 100%;
+        height: auto;
+        border-radius: 0px;
+      }
+    }
+    .button_achat:hover {
+      transform: scale(0.95);
+      border: 2px solid rgb(211, 210, 210);
+      box-shadow: 0px 8px 8px 0px rgba(0, 0, 0, 0.25) inset;
+      transition: 200ms;
+    }
+  }
+  .main_container > * {
+    flex: 1 0;
+  }
+  .main_container_card:hover {
+    transform: scale(1.01);
+    box-shadow: 0px 4px 8px 8px rgba(0, 0, 0, 0.25);
+    // max-height: 800px;
+    // .aliments_food{
+    //     display: block;
+    // }
   }
 }

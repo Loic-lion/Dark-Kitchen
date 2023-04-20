@@ -126,6 +126,7 @@ let cart = JSON.parse(localStorage.getItem("CART")) || []; // Pour conserver les
 const darkModeBut = document.querySelector(".button_darkmode");
 const body = document.querySelector("body");
 const triBut = document.getElementById("sort-button");
+const link = document.querySelectorAll("a");
 
 /********** FONCTIONS **********/
 // Mode sombre
