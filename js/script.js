@@ -1,6 +1,6 @@
 /*
 *   Javascript developer group :
-*   Loic & Nikko
+*           Loic & Nikko
 */
 
 /********** VARIABLES **********/
@@ -104,18 +104,17 @@ const courses = [
 ];
   
 let sectionMain = document.querySelector("section.main_container");
+let filter; // variable pour stocker les filtres
 const buttonTous = document.getElementById("all-button");
 const buttonPoisson = document.getElementById("poisson-button");
 const buttonViande = document.getElementById("viande-button");
 const buttonVege = document.getElementById("vegetarien-button");
 const buttonDessert = document.getElementById("dessert-button");
 const buttonWok = document.getElementById("wok-button");
-let filter; // variable pour stocker les filtres
 const cartItems = document.querySelector(".cart_items");
 const subTotal = document.querySelector(".subtotal");
 const totalItemsInCart = document.querySelector(".cart_total_items");
 let cart = JSON.parse(localStorage.getItem("CART")) || []; // Pour conserver les éléments du panier lorsque l'on rafraichit la page 
-// let cart = [];
 const darkModeBut = document.querySelector(".button_darkmode");
 const body = document.querySelector("body");
 const triBut = document.getElementById("sort-button");
@@ -135,7 +134,7 @@ function display(){
 }
 
 // Réinitialiser l'affichage
-function clear(){
+function clearDisplay(){
     sectionMain.innerHTML = "";
 }
 
@@ -144,15 +143,15 @@ function darkMode() {
     body.classList.toggle("dark_mode");
 }
 
+/*** Filtres & tri ***/
 // Tri par prix
 function sortPrice(){
     courses.sort((a, b) => (a.price > b.price ? 1 : -1));
-    clear();
+    clearDisplay();
     display();
     updateFilters();
 }
 
-/*** Filtres ***/
 // Tout
 function showAllSections() {
     const sectionsAll = document.querySelectorAll('section');
@@ -250,7 +249,6 @@ function showWokSections(){
     filter = "wok";
 }
 
-
 // fonction pour mettre à jour les filtres et afficher les résultats filtrés
 function updateFilters(){
     if(filter == "wok"){
@@ -284,7 +282,7 @@ function addToCart(id) {
     updateCart();
 }
 
-// Mettre à jour le panier (=réafficher le panier et le sous-total avec les modifications effectuées)
+// Mettre à jour le panier (= réafficher le panier et le sous-total avec les modifications effectuées)
 function updateCart(){
     renderCartItems();
     renderSubTotal();
@@ -331,14 +329,12 @@ function renderCartItems(){
 // Supprimer un élément du panier
 function removeFromCart(id){
     cart = cart.filter( (item) => item.id !== id);
-
     updateCart();
 }
 
 // Changer le nombre d'unité d'un élément du panier
 function changeUnits(action, id){
     cart = cart.map((item) => {
-        
         let units = item.units;
         
         if(item.id === id){
@@ -353,17 +349,19 @@ function changeUnits(action, id){
             units,
         };
     });
+
     updateCart();
 }
 
 /********** PROGRAMME **********/
-// Appel de la fonction d'affichage
+/*** Appels de fonctions ***/
+// Fonction d'affichage de base
 display();
 
-// Appel de la fonction de mise à jour (si on rafraichit la page on garde le contenu du panier)
+// Fonction de mise à jour (si on rafraichit la page on garde le contenu du panier)
 updateCart();
 
-// Evenements
+/*** Evenements ***/
 buttonTous.addEventListener("click", showAllSections);
 buttonPoisson.addEventListener("click", showFishSections);
 buttonViande.addEventListener("click", showMeatSections);
