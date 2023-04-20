@@ -105,6 +105,8 @@ const courses = [
   
 let sectionMain = document.querySelector("section.main_container");
 let filter; // variable pour stocker les filtres
+let triState = 0;
+const triBut = document.getElementById("sort-button"); 
 const buttonTous = document.getElementById("all-button");
 const buttonPoisson = document.getElementById("poisson-button");
 const buttonViande = document.getElementById("viande-button");
@@ -117,7 +119,6 @@ const totalItemsInCart = document.querySelector(".cart_total_items");
 let cart = JSON.parse(localStorage.getItem("CART")) || []; // Pour conserver les éléments du panier lorsque l'on rafraichit la page 
 const darkModeBut = document.querySelector(".button_darkmode");
 const body = document.querySelector("body");
-const triBut = document.getElementById("sort-button");
 
 
 /********** FONCTIONS **********/
@@ -146,7 +147,13 @@ function darkMode() {
 /*** Filtres & tri ***/
 // Tri par prix
 function sortPrice(){
-    courses.sort((a, b) => (a.price > b.price ? 1 : -1));
+    if(triState == 0){
+        courses.sort((a, b) => (a.price > b.price ? 1 : -1));
+        triState++;
+    } else {
+        courses.sort((a, b) => (a.id > b.id ? 1 : -1));
+        triState--;
+    }
     clearDisplay();
     display();
     updateFilters();
