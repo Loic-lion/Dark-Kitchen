@@ -109,18 +109,27 @@ const buttonWok = document.getElementById("wok-button");
 const cartItems = document.querySelector(".cart_items");
 const subTotal = document.querySelector(".subtotal");
 const totalItemsInCart = document.querySelector(".cart_total_items");
-// Pour conserver les éléments du panier lorsque l'on rafraichit la page :
-// let cart = JSON.parse(localStorage.getItem("CART")) || [];
-let cart = [];
+let cart = JSON.parse(localStorage.getItem("CART")) || []; // Pour conserver les éléments du panier lorsque l'on rafraichit la page 
+// let cart = [];
+const darkModeBut = document.querySelector(".button_darkmode");
+const body = document.querySelector("body");
+const triBut = document.getElementById("sort-button");
+
+
 
 /********** FONCTIONS **********/
+// Mode sombre
+function darkMode() {
+    body.classList.toggle("dark_mode");
+}
+
 // Tri par prix
 function sortPrice(){
     courses.sort((a, b) => (a.price > b.price ? 1 : -1));
 }
 
 /*** Filtres ***/
-//Tout
+// Tout
 function toutSections() {
     const sectionsAll = document.querySelectorAll('section');
     
@@ -129,7 +138,7 @@ function toutSections() {
     }
 }
 
-//Poisson
+// Poisson
 function hideNonPoissonSections(){
     const sections = document.querySelectorAll('section[data-category]');
     
@@ -144,7 +153,7 @@ function hideNonPoissonSections(){
     }
 }
 
-//Viande
+// Viande
 function hideNonViandeSections(){
     const sections = document.querySelectorAll('section[data-category]');
   
@@ -159,7 +168,7 @@ function hideNonViandeSections(){
     }
 }
   
-//Vegetarien
+// Vegetarien
 function hideNonVegetarienSections(){
     const sections = document.querySelectorAll('section[data-category]');
   
@@ -174,7 +183,7 @@ function hideNonVegetarienSections(){
     }
 }  
   
-//Dessert
+// Dessert
 function hideNonDessertSections(){
     // Récupérer toutes les sections avec l'attribut "data-category"
     const sections = document.querySelectorAll('section[data-category]');
@@ -190,7 +199,7 @@ function hideNonDessertSections(){
     }
 }
     
-//Wok
+// Wok
 function hideNonWokSections(){
     const sections = document.querySelectorAll('section[data-category]');
   
@@ -227,7 +236,7 @@ function updateCart(){
     renderSubTotal();
 
     // Enregistrer le panier dans le stockage local
-    // localStorage.setItem("CART", JSON.stringify(cart));
+    localStorage.setItem("CART", JSON.stringify(cart));
 }
 
 // Calculer le montant total du panier
@@ -294,6 +303,10 @@ function changeUnits(action, id){
     updateCart();
 }
 
+function display(){
+    alert("tri");
+}
+
 /********** PROGRAMME **********/
 // Afficher les produits du tableau d'objets
 courses.forEach((food) => {
@@ -305,7 +318,7 @@ courses.forEach((food) => {
 });
 
 // Appel de fonction de mise à jour (si on rafraichit la page on garde le contenu du panier)
-// updateCart();
+updateCart();
 
 // Evenements
 buttonTous.addEventListener("click", toutSections);
@@ -314,3 +327,4 @@ buttonViande.addEventListener("click", hideNonViandeSections);
 buttonVege.addEventListener("click", hideNonVegetarienSections);
 buttonDessert.addEventListener("click", hideNonDessertSections);
 buttonWok.addEventListener("click", hideNonWokSections);
+darkModeBut.addEventListener("click", darkMode);

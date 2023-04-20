@@ -1,15 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Dark kitchen</title>
     <script defer src="./js/script.js"></script>
-    <link rel="stylesheet" href="/css/main.css" />
+    <link rel="stylesheet" href="/css/main.css"/>
   </head>
   <body>
     <header>
+      <!-- logo -->
+      <img class="header_logo" src="img/becode-logo.png"/>
+      <!-- contact -->
+      <button>contact</button>
+      <!-- bouton dark mode -->
+      <button class="button_darkmode">dark mode</button>
+      <!-- nav bar/triage -->
       <div id="buttons_container">
         <button id="all-button">Tous</button>
         <button id="poisson-button">Poisson</button>
@@ -17,18 +24,11 @@
         <button id="vegetarien-button">Végétarien</button>
         <button id="dessert-button">Dessert</button>
         <button id="wok-button">Wok</button>
+        <button id="sort-button">Tri</button>
       </div>
-      <!-- logo-->
-      <img class="header_logo" src="#" />
-      <!-- nav bar/triage -->
-      <nav></nav>
-      <!-- contact-->
-      <button>contact</button>
-      <!--bouton dark mode-->
-      <button class="button_darkmode">dark mode</button>
     </header>
     <main>
-      <!--En-tête-->
+      <!-- En-tête -->
       <section class="main_head">
         <h1>Lorem ipsum dolor</h1>
         <p class="main_head_description">
@@ -38,25 +38,24 @@
           aspernatur?
         </p>
       </section>
-      <!--container qui contient les cartes-->
+      <!-- container qui contient les cartes -->
       <section class="main_container">
-        <!--les plats-->
+        <!-- les plats -->
       </section>
     </main>
     <footer>
-      <!--panier-->
+      <!-- panier -->
       <div class="cart">
         <div class="cart_header">
           <div class="cart_total_items"></div>
-          <div class="cart_items">
-          </div>
+          <div class="cart_items"></div>
           <div class="cart_footer">
             <div class="subtotal"></div>
           </div>
         </div>
       </div>
 
-      <!-- contact-->
+      <!-- contact -->
       <a href="#">contact</a>
     </footer>
   </body>
