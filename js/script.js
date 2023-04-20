@@ -387,3 +387,30 @@ buttonDessert.addEventListener("click", showDessertSections);
 buttonWok.addEventListener("click", showWokSections);
 darkModeBut.addEventListener("click", darkMode);
 triBut.addEventListener("click", sortPrice);
+
+// Récupérer l'icône du panier et la div du panier
+const cartIcon = document.querySelector("#cartshop");
+const cartContainer = document.querySelector(".cart");
+let cartState = 0;
+console.log(cartIcon);
+console.log(cartContainer);
+
+// Fonction pour afficher le panier
+function displayCart() {
+  if (cartState == 0) {
+    cartContainer.classList.add("active");
+    cartState++;
+  } else {
+    cartContainer.classList.remove("active");
+    cartState--;
+  }
+  // Ajouter la classe "active" à la div du panier pour l'afficher
+  cartContainer.classList.add("active");
+}
+
+// Ajouter un écouteur d'événement au clic sur l'icône du panier
+cartIcon.addEventListener("click", function () {
+  // Appeler la fonction pour afficher le panier
+  displayCart();
+  console.log(cartContainer);
+});

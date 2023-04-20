@@ -232,7 +232,21 @@ footer {
 .footer-social a:hover {
   color: #ff2b2b;
 }
+.cart {
+  height: 200px;
+  width: 200px;
+  background-color: #ccc;
+  position: fixed;
+  z-index: 9999;
+  top: 100px;
+  right: 10px;
+  overflow: scroll;
 
+  transform: translateX(300px);
+}
+.cart.active {
+  transform: translateX(-50px);
+}
 @media screen and (max-width: 768px) {
   header {
     flex-direction: column;
