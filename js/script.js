@@ -1,4 +1,8 @@
-/////////// Nikko et Loic ///////////
+/*
+*   Javascript developer group :
+*   Loic & Nikko
+*/
+
 /********** VARIABLES **********/
 const courses = [
     {
@@ -106,6 +110,7 @@ const buttonViande = document.getElementById("viande-button");
 const buttonVege = document.getElementById("vegetarien-button");
 const buttonDessert = document.getElementById("dessert-button");
 const buttonWok = document.getElementById("wok-button");
+let filter; // variable pour stocker les filtres
 const cartItems = document.querySelector(".cart_items");
 const subTotal = document.querySelector(".subtotal");
 const totalItemsInCart = document.querySelector(".cart_total_items");
@@ -116,8 +121,24 @@ const body = document.querySelector("body");
 const triBut = document.getElementById("sort-button");
 
 
-
 /********** FONCTIONS **********/
+/*** Affichage ***/
+// Afficher les produits du tableau d'objets
+function display(){
+    courses.forEach((food) => {
+        let section = document.createElement("section");
+        section.setAttribute("data-category", food.category);
+        section.innerHTML = `<img src= ${food.picture} > <div class="info"><span class="title_food" > ${food.title} </span> <span class="category_food"> Catégorie: ${food.category} </span> <span class="aliments_food"> Description: ${food.description} </span> <span class="price_food"> Prix: ${food.price} </span>   <button class="button_achat" onclick="addToCart(${food.id})">Ajouter au panier</button></div>`;
+        sectionMain.appendChild(section);
+        section.setAttribute("class", "main_container_card");
+    });
+}
+
+// Réinitialiser l'affichage
+function clear(){
+    sectionMain.innerHTML = "";
+}
+
 // Mode sombre
 function darkMode() {
     body.classList.toggle("dark_mode");
@@ -126,20 +147,25 @@ function darkMode() {
 // Tri par prix
 function sortPrice(){
     courses.sort((a, b) => (a.price > b.price ? 1 : -1));
+    clear();
+    display();
+    updateFilters();
 }
 
 /*** Filtres ***/
 // Tout
-function toutSections() {
+function showAllSections() {
     const sectionsAll = document.querySelectorAll('section');
     
     for (let i = 0; i < sectionsAll.length; i++) {
         sectionsAll[i].style.display = 'block';
     }
+
+    filter = "tout";
 }
 
 // Poisson
-function hideNonPoissonSections(){
+function showFishSections(){
     const sections = document.querySelectorAll('section[data-category]');
     
     // Parcourir toutes les sections et cacher celles qui ne contiennent pas le mot "Poisson"
@@ -151,10 +177,12 @@ function hideNonPoissonSections(){
             sections[i].style.display = 'block';
         }
     }
+
+    filter = "poisson";
 }
 
 // Viande
-function hideNonViandeSections(){
+function showMeatSections(){
     const sections = document.querySelectorAll('section[data-category]');
   
     // Parcourir toutes les sections et cacher celles qui ne contiennent pas le mot "Viande"
@@ -166,10 +194,12 @@ function hideNonViandeSections(){
             sections[i].style.display = 'block';
         }
     }
+
+    filter = "viande";
 }
   
 // Vegetarien
-function hideNonVegetarienSections(){
+function showVegetarianSections(){
     const sections = document.querySelectorAll('section[data-category]');
   
     // Parcourir toutes les sections et cacher celles qui ne contiennent pas le mot "Vegetarien"
@@ -181,10 +211,12 @@ function hideNonVegetarienSections(){
             sections[i].style.display = 'block';
         }
     }
+
+    filter = "vegetarien";
 }  
   
 // Dessert
-function hideNonDessertSections(){
+function showDessertSections(){
     // Récupérer toutes les sections avec l'attribut "data-category"
     const sections = document.querySelectorAll('section[data-category]');
   
@@ -197,10 +229,12 @@ function hideNonDessertSections(){
         sections[i].style.display = 'block';
         }
     }
+
+    filter = "dessert";
 }
     
 // Wok
-function hideNonWokSections(){
+function showWokSections(){
     const sections = document.querySelectorAll('section[data-category]');
   
     // Parcourir toutes les sections et cacher celles qui ne contiennent pas le mot "Poisson"
@@ -211,6 +245,26 @@ function hideNonWokSections(){
         }else {
             sections[i].style.display = 'block';
         }
+    }
+
+    filter = "wok";
+}
+
+
+// fonction pour mettre à jour les filtres et afficher les résultats filtrés
+function updateFilters(){
+    if(filter == "wok"){
+        showWokSections();
+    } else if (filter == "poisson"){
+        showFishSections();
+    } else if (filter == "dessert"){
+        showDessertSections();
+    } else if (filter == "vegetarien"){
+        showVegetarianSections();
+    } else if (filter == "viande"){
+        showMeatSections();
+    } else {
+        showAllSections();
     }
 }
 
@@ -234,7 +288,6 @@ function addToCart(id) {
 function updateCart(){
     renderCartItems();
     renderSubTotal();
-
     // Enregistrer le panier dans le stockage local
     localStorage.setItem("CART", JSON.stringify(cart));
 }
@@ -303,28 +356,19 @@ function changeUnits(action, id){
     updateCart();
 }
 
-function display(){
-    alert("tri");
-}
-
 /********** PROGRAMME **********/
-// Afficher les produits du tableau d'objets
-courses.forEach((food) => {
-    let section = document.createElement("section");
-    section.setAttribute("data-category", food.category);
-    section.innerHTML = `<img src= ${food.picture} > <div class="info"><span class="title_food" > ${food.title} </span> <span class="category_food"> Catégorie: ${food.category} </span> <span class="aliments_food"> Description: ${food.description} </span> <span class="price_food"> Prix: ${food.price} </span>   <button class="button_achat" onclick="addToCart(${food.id})">Ajouter au panier</button></div>`;
-    sectionMain.appendChild(section);
-    section.setAttribute("class", "main_container_card");
-});
+// Appel de la fonction d'affichage
+display();
 
-// Appel de fonction de mise à jour (si on rafraichit la page on garde le contenu du panier)
+// Appel de la fonction de mise à jour (si on rafraichit la page on garde le contenu du panier)
 updateCart();
 
 // Evenements
-buttonTous.addEventListener("click", toutSections);
-buttonPoisson.addEventListener("click", hideNonPoissonSections);
-buttonViande.addEventListener("click", hideNonViandeSections);
-buttonVege.addEventListener("click", hideNonVegetarienSections);
-buttonDessert.addEventListener("click", hideNonDessertSections);
-buttonWok.addEventListener("click", hideNonWokSections);
+buttonTous.addEventListener("click", showAllSections);
+buttonPoisson.addEventListener("click", showFishSections);
+buttonViande.addEventListener("click", showMeatSections);
+buttonVege.addEventListener("click", showVegetarianSections);
+buttonDessert.addEventListener("click", showDessertSections);
+buttonWok.addEventListener("click", showWokSections);
 darkModeBut.addEventListener("click", darkMode);
+triBut.addEventListener("click", sortPrice);
