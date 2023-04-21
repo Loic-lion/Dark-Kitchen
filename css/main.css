@@ -3,6 +3,8 @@
    v2.0 | 20110126
    License: none (public domain)
 */
+@import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:ital@1&family=Raleway:wght@100&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Asap:wght@500&display=swap");
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -53,6 +55,72 @@ table {
   border-spacing: 0;
 }
 
+body main .main_head {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(https://thumbs.dreamstime.com/b/fond-de-nourriture-d-alimentation-%C3%A9quilibr%C3%A9e-121937194.jpg);
+  background-position: center;
+  background-size: cover;
+  background-color: rgb(222, 217, 223);
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 0px 0px;
+  grid-template-areas: ". h1 ." "p p p";
+}
+@media screen and (min-width: 900px) {
+  body main .main_head {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(https://thumbs.dreamstime.com/b/fond-de-nourriture-d-alimentation-%C3%A9quilibr%C3%A9e-121937194.jpg);
+    background-position: center;
+    background-size: cover;
+  }
+}
+body main .main_head h1 {
+  grid-area: h1;
+  height: 5;
+  display: flex;
+  text-align: center;
+  font-size: x-large;
+  font-family: "Asap", sans-serif;
+  font-weight: bold;
+  padding-top: 33%;
+  color: rgb(255, 255, 255);
+}
+@media screen and (min-width: 900px) {
+  body main .main_head h1 {
+    grid-area: h1;
+    font-family: "Josefine Sans", sans-serif;
+    display: flex;
+    font-weight: bolder;
+    text-align: center;
+    font-size: 50px;
+    font-weight: bolder;
+    margin-bottom: 33%;
+  }
+}
+body main .main_head .main_head_description {
+  grid-area: p;
+  font-family: "Asap", sans-serif;
+  padding-top: 15px;
+  text-align: center;
+  color: rgb(255, 255, 255);
+}
+@media screen and (min-width: 900px) {
+  body main .main_head .main_head_description {
+    grid-area: p;
+    color: rgb(0, 0, 0);
+    background-color: rgb(250, 250, 250);
+    text-align: center;
+    font-size: x-large;
+    font-family: "Raleway", sans-serif;
+    line-height: 40px;
+    border-radius: 15%;
+    padding-right: 25px;
+    padding-left: 25px;
+    margin-top: 25px;
+    margin-right: 50px;
+    margin-left: 50px;
+    margin-bottom: 300px;
+  }
+}/*# sourceMappingURL=main.css.map */
 
 main {
   font-family: "Josefin Sans", sans-serif;
