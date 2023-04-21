@@ -1,7 +1,12 @@
-///////////Nikko et Loic /////////
+/*
+ *   Javascript developer group :
+ *           Loic & Nikko
+ */
 
+/********** VARIABLES **********/
 const courses = [
   {
+    id: 1,
     picture: "img/wok-porc-gambas-langoustines.png",
     title: "Wok de porc, crevettes et langoustines",
     category: ["Asiatique", " Wok", " Viande", " Poisson"],
@@ -10,6 +15,7 @@ const courses = [
     price: 14.5,
   },
   {
+    id: 2,
     picture: "img/risotto-calamar-chorizo.png",
     title: "Risotto calamars et chorizo",
     category: ["Européen", " Wok", " Viande", " Poisson"],
@@ -18,6 +24,7 @@ const courses = [
     price: 11.95,
   },
   {
+    id: 3,
     picture: "img/quiche-roquette.png",
     title: "Quiche à la roquette et au jambon cru",
     category: ["Européen", " Viande"],
@@ -26,6 +33,7 @@ const courses = [
     price: 8.5,
   },
   {
+    id: 4,
     picture: "img/legumes-vapeur.png",
     title: "Meunière de fruits de mer aux légumes vapeur",
     category: ["Vapeur", " Poisson"],
@@ -34,6 +42,7 @@ const courses = [
     price: 13.85,
   },
   {
+    id: 5,
     picture: "img/recette_Salade_composee.png",
     title: "Salade composée",
     category: ["Vegetarien"],
@@ -42,6 +51,7 @@ const courses = [
     price: 7.5,
   },
   {
+    id: 6,
     picture: "img/pates-saumon.png",
     title: "Spaghettis au saumon fumé",
     category: ["Européen", " Poisson"],
@@ -50,6 +60,7 @@ const courses = [
     price: 9.95,
   },
   {
+    id: 7,
     picture: "img/bowl-dish-food-produce-vegetable-soup.png",
     title: "Potage aux topinambours et salade de saison",
     category: ["Vegetarien", " Américain"],
@@ -58,6 +69,7 @@ const courses = [
     price: 7.75,
   },
   {
+    id: 8,
     picture: "img/salade-chevre-chaud.png",
     title: "Salade au chèvre chaud",
     category: ["Vegetarien"],
@@ -66,6 +78,7 @@ const courses = [
     price: 8.5,
   },
   {
+    id: 9,
     picture: "img/mousse-chocolat-blanc.png",
     title: "Mousse au chocolat blanc",
     category: ["Dessert", " Vegetarien"],
@@ -74,6 +87,7 @@ const courses = [
     price: 6.95,
   },
   {
+    id: 10,
     picture: "img/compote-de-rhubarbe.png",
     title: "Compote de rhubarbe",
     category: ["Dessert", " Vegetarien"],
@@ -82,6 +96,7 @@ const courses = [
     price: 6.75,
   },
   {
+    id: 11,
     picture: "img/rognon-veau-madere.png",
     title: "Rognons de veau au Madère",
     category: ["Européen", " Viande"],
@@ -90,6 +105,7 @@ const courses = [
     price: 10.75,
   },
   {
+    id: 12,
     picture: "img/salade-cressonniere.png",
     title: "Salade cressonnière",
     category: ["Vegetarien"],
@@ -100,30 +116,76 @@ const courses = [
 ];
 
 let sectionMain = document.querySelector("section.main_container");
+let filter; // variable pour stocker les filtres
+let triState = 0;
+const triBut = document.getElementById("sort-button");
+const buttonTous = document.getElementById("all-button");
+const buttonPoisson = document.getElementById("poisson-button");
+const buttonViande = document.getElementById("viande-button");
+const buttonVege = document.getElementById("vegetarien-button");
+const buttonDessert = document.getElementById("dessert-button");
+const buttonWok = document.getElementById("wok-button");
+const cartItems = document.querySelector(".cart_items");
+const subTotal = document.querySelector(".subtotal");
+const totalItemsInCart = document.querySelector(".cart_total_items");
+let cart = JSON.parse(localStorage.getItem("CART")) || []; // Pour conserver les éléments du panier lorsque l'on rafraichit la page
+const darkModeBut = document.querySelector(".button_darkmode");
+const body = document.querySelector("body");
 
-courses.forEach((food) => {
-  let section = document.createElement("section");
-  section.setAttribute("data-category", food.category);
-  section.innerHTML = `<img src= ${food.picture} > <div class="info"><span class="title_food" > ${food.title} </span> <span class="category_food"> Catégorie: ${food.category} </span> <span class="aliments_food"> Description: ${food.description} </span> <span class="price_food"> Prix: ${food.price} </span>   <div class="button_achat"><img class="bouton_achat" src="./img/png-clipart-online-shopping-computer-icons-shopping-cart-software-shopping-cart-angle-rectangle.png"></div> </div> `;
+/********** FONCTIONS **********/
+/*** Affichage ***/
+// Afficher les produits du tableau d'objets
+function display() {
+  courses.forEach((food) => {
+    let section = document.createElement("section");
+    section.setAttribute("data-category", food.category);
+    section.innerHTML = `<img src= ${food.picture} > <div class="info"><span class="title_food" > ${food.title} </span> <span class="category_food"> Catégorie: ${food.category} </span> <span class="aliments_food"> Description: ${food.description} </span> <span class="price_food"> Prix: ${food.price} </span>   <button class="button_achat" onclick="addToCart(${food.id})">Ajouter au panier</button></div>`;
+    sectionMain.appendChild(section);
+    section.setAttribute("class", "main_container_card");
+  });
+}
 
-  sectionMain.appendChild(section);
-  section.setAttribute("class", "main_container_card");
-});
-////////////////////////////Tous/////////////
-function TousSections() {
+// Réinitialiser l'affichage
+function clearDisplay() {
+  sectionMain.innerHTML = "";
+}
+
+// Mode sombre
+function darkMode() {
+  body.classList.toggle("dark_mode");
+}
+
+/*** Filtres & tri ***/
+// Tri par prix
+function sortPrice() {
+  if (triState == 0) {
+    courses.sort((a, b) => (a.price > b.price ? 1 : -1));
+    triState++;
+  } else {
+    courses.sort((a, b) => (a.id > b.id ? 1 : -1));
+    triState--;
+  }
+  clearDisplay();
+  display();
+  updateFilters();
+}
+
+// Tout
+function showAllSections() {
   const sectionsAll = document.querySelectorAll("section");
 
   for (let i = 0; i < sectionsAll.length; i++) {
     sectionsAll[i].style.display = "block";
   }
+
+  filter = "tout";
 }
 
-const buttonTous = document.getElementById("all-button");
-buttonTous.addEventListener("click", TousSections);
-////////////////////////////POISSON/////////////
-function hideNonPoissonSections() {
+// Poisson
+function showFishSections() {
   const sections = document.querySelectorAll("section[data-category]");
 
+  // Parcourir toutes les sections et cacher celles qui ne contiennent pas le mot "Poisson"
   for (let i = 0; i < sections.length; i++) {
     const category = sections[i].getAttribute("data-category");
     if (!category.includes("Poisson")) {
@@ -132,17 +194,15 @@ function hideNonPoissonSections() {
       sections[i].style.display = "block";
     }
   }
+
+  filter = "poisson";
 }
 
-const buttonPoisson = document.getElementById("poisson-button");
-buttonPoisson.addEventListener("click", hideNonPoissonSections);
-
-///////////////////////////VIANDE////////////////
-
-function hideNonViandeSections() {
+// Viande
+function showMeatSections() {
   const sections = document.querySelectorAll("section[data-category]");
 
-  // Parcourir toutes les sections et cacher celles qui ne contiennent pas le mot "Poisson"
+  // Parcourir toutes les sections et cacher celles qui ne contiennent pas le mot "Viande"
   for (let i = 0; i < sections.length; i++) {
     const category = sections[i].getAttribute("data-category");
     if (!category.includes("Viande")) {
@@ -151,17 +211,15 @@ function hideNonViandeSections() {
       sections[i].style.display = "block";
     }
   }
+
+  filter = "viande";
 }
 
-const buttonViande = document.getElementById("viande-button");
-buttonViande.addEventListener("click", hideNonViandeSections);
-
-///////////////////////////VEGETARIEN////////////////
-
-function hideNonVegetarienSections() {
+// Vegetarien
+function showVegetarianSections() {
   const sections = document.querySelectorAll("section[data-category]");
 
-  // Parcourir toutes les sections et cacher celles qui ne contiennent pas le mot "Poisson"
+  // Parcourir toutes les sections et cacher celles qui ne contiennent pas le mot "Vegetarien"
   for (let i = 0; i < sections.length; i++) {
     const category = sections[i].getAttribute("data-category");
     if (!category.includes("Vegetarien")) {
@@ -170,18 +228,16 @@ function hideNonVegetarienSections() {
       sections[i].style.display = "block";
     }
   }
+
+  filter = "vegetarien";
 }
 
-const buttonVege = document.getElementById("vegetarien-button");
-buttonVege.addEventListener("click", hideNonVegetarienSections);
-
-///////////////////////////DESSERT////////////////
-
-function hideNonDessertSections() {
+// Dessert
+function showDessertSections() {
   // Récupérer toutes les sections avec l'attribut "data-category"
   const sections = document.querySelectorAll("section[data-category]");
 
-  // Parcourir toutes les sections et cacher celles qui ne contiennent pas le mot "Poisson"
+  // Parcourir toutes les sections et cacher celles qui ne contiennent pas le mot "Dessert"
   for (let i = 0; i < sections.length; i++) {
     const category = sections[i].getAttribute("data-category");
     if (!category.includes("Dessert")) {
@@ -190,14 +246,12 @@ function hideNonDessertSections() {
       sections[i].style.display = "block";
     }
   }
+
+  filter = "dessert";
 }
 
-const buttonDessert = document.getElementById("dessert-button");
-buttonDessert.addEventListener("click", hideNonDessertSections);
-
-///////////////////////////Wok////////////////
-
-function hideNonWokSections() {
+// Wok
+function showWokSections() {
   const sections = document.querySelectorAll("section[data-category]");
 
   // Parcourir toutes les sections et cacher celles qui ne contiennent pas le mot "Poisson"
@@ -209,7 +263,154 @@ function hideNonWokSections() {
       sections[i].style.display = "block";
     }
   }
+
+  filter = "wok";
 }
 
-const buttonWok = document.getElementById("wok-button");
-buttonWok.addEventListener("click", hideNonWokSections);
+// fonction pour mettre à jour les filtres et afficher les résultats filtrés
+function updateFilters() {
+  if (filter == "wok") {
+    showWokSections();
+  } else if (filter == "poisson") {
+    showFishSections();
+  } else if (filter == "dessert") {
+    showDessertSections();
+  } else if (filter == "vegetarien") {
+    showVegetarianSections();
+  } else if (filter == "viande") {
+    showMeatSections();
+  } else {
+    showAllSections();
+  }
+}
+
+/*** Panier ***/
+// Ajouter un élément au panier
+function addToCart(id) {
+  // Vérifier si le produit est déjà présent dans le panier
+  if (cart.some((item) => item.id === id)) {
+    changeUnits("plus", id);
+  } else {
+    const item = courses.find((course) => course.id === id);
+    cart.push({
+      ...item,
+      units: 1,
+    });
+  }
+  updateCart();
+}
+
+// Mettre à jour le panier (= réafficher le panier et le sous-total avec les modifications effectuées)
+function updateCart() {
+  renderCartItems();
+  renderSubTotal();
+  // Enregistrer le panier dans le stockage local
+  localStorage.setItem("CART", JSON.stringify(cart));
+}
+
+// Calculer le montant total du panier
+function renderSubTotal() {
+  let totalPrice = 0;
+  let totalItems = 0;
+
+  cart.forEach((item) => {
+    totalPrice += item.price * item.units;
+    totalItems += item.units;
+  });
+
+  subTotal.innerHTML = `Sous-total: ${totalPrice.toFixed(2)}€`;
+  totalItemsInCart.innerHTML = `Panier: ${totalItems} plats`;
+}
+
+// Afficher les éléments séléctionnés au panier
+function renderCartItems() {
+  cartItems.innerHTML = ""; // vider le panier
+  cart.forEach((item) => {
+    cartItems.innerHTML += `<div class="cart_item">
+          <button class="btn remove" onclick="removeFromCart(${item.id})">Supprimer</button>
+          <div class="item_title">
+              <h4>${item.title}</h4>
+          </div>
+          <div class="unit_price">
+              <p>${item.price}€</p>
+          </div>
+          <div class="number_units">
+              <div class="btn minus" onclick="changeUnits('minus', ${item.id})">-</div>
+              <div class="units">${item.units}</div>
+              <div class="btn plus" onclick="changeUnits('plus', ${item.id})">+</div>
+          </div>
+      </div>`;
+  });
+}
+
+// Supprimer un élément du panier
+function removeFromCart(id) {
+  cart = cart.filter((item) => item.id !== id);
+  updateCart();
+}
+
+// Changer le nombre d'unité d'un élément du panier
+function changeUnits(action, id) {
+  cart = cart.map((item) => {
+    let units = item.units;
+
+    if (item.id === id) {
+      if (action === "minus" && units > 1) {
+        units--;
+      } else if (action === "plus" && units < 10) {
+        units++;
+      }
+    }
+    return {
+      ...item,
+      units,
+    };
+  });
+
+  updateCart();
+}
+
+/********** PROGRAMME **********/
+/*** Appels de fonctions ***/
+// Fonction d'affichage de base
+display();
+
+// Fonction de mise à jour (si on rafraichit la page on garde le contenu du panier)
+updateCart();
+
+/*** Evenements ***/
+buttonTous.addEventListener("click", showAllSections);
+buttonPoisson.addEventListener("click", showFishSections);
+buttonViande.addEventListener("click", showMeatSections);
+buttonVege.addEventListener("click", showVegetarianSections);
+buttonDessert.addEventListener("click", showDessertSections);
+buttonWok.addEventListener("click", showWokSections);
+darkModeBut.addEventListener("click", darkMode);
+triBut.addEventListener("click", sortPrice);
+
+// Récupérer l'icône du panier et la div du panier
+const cartIcon = document.querySelector("#cartshop");
+const cartContainer = document.querySelector(".cart");
+let cartState = 0;
+console.log(cartIcon);
+console.log(cartContainer);
+
+// Fonction pour afficher le panier
+function displayCart() {
+  if (cartState == 0) {
+    cartContainer.classList.add("active");
+    cartState++;
+  } else {
+    cartContainer.classList.remove("active");
+    cartState--;
+  }
+  // Ajouter la classe "active" à la div du panier pour l'afficher
+  cartContainer.classList.add("active");
+}
+
+// Ajouter un écouteur d'événement au clic sur l'icône du panier
+cartIcon.addEventListener("click", function () {
+  // Appeler la fonction pour afficher le panier
+  displayCart();
+  console.log(cartContainer);
+});
