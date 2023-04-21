@@ -1,26 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Dark kitchen</title>
     <script defer src="./js/script.js"></script>
-    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="/css/main.css" />
   </head>
   <body>
     <header>
       <!-- logo-->
-      <img class="header_logo" src="#" />
+      <img
+        class="header_logo"
+        src="./img/logoDarkKitchen/Logo DarkKitchen.png"/>
       <!-- nav bar/triage -->
-      <nav></nav>
-      <!-- contact-->
-      <button>contact</button>
+      <nav class="nav_header">
+        <div class="logo"></div>
+
+        <ul>
+          <li><a href="#home">Accueil</a></li>
+          <li><a href="#menu">Menu</a></li>
+          <li><a href="#about">À propos</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li>
+            <a href="#cart" id="cartshop" class="fa-shopping-cart"> Panier</a>
+          </li>
+          <li><button class="button_darkmode">Dark Mode</button></li>
+        </ul>
+      </nav>
       <!--bouton dark mode-->
-      <button class="button_darkmode">dark mode</button>
     </header>
     <main>
-      <!--En-tête-->
+      <!-- En-tête -->
       <section class="main_head">
         <h1>Lorem ipsum dolor</h1>
         <p class="main_head_description">
@@ -30,17 +42,65 @@
           aspernatur?
         </p>
       </section>
+
+      <nav id="buttons_container">
+        <button class="bouton_triage" id="all-button">Tous</button>
+        <button class="bouton_triage" id="poisson-button">Poisson</button>
+        <button class="bouton_triage" id="viande-button">Viande</button>
+        <button class="bouton_triage" id="vegetarien-button">Végétarien</button>
+        <button class="bouton_triage" id="dessert-button">Dessert</button>
+        <button class="bouton_triage" id="wok-button">Wok</button>
+        <button class="bouton_triage" id="sort-button">Tri</button>
+      </nav>
       <!--container qui contient les cartes-->
       <section class="main_container">
-        <!--les plats-->
+        <!-- les plats -->
       </section>
     </main>
     <footer>
-      <!--panier-->
-      <div class="footer_panier"></div>
-
+      <!-- panier -->
+      <div class="cart">
+        <div class="cart_header">
+          <div class="cart_total_items"></div>
+          <div class="cart_items"></div>
+          <div class="cart_footer">
+            <div class="subtotal"></div>
+          </div>
+        </div>
+      </div>
       <!-- contact-->
-      <a href="#">contact</a>
+
+      <div class="container">
+        <div class="footer-info">
+          <h3>Dark Kitchen</h3>
+          <p>21 Rue de la Paix, Paris, France</p>
+          <p>+33 1 23 45 67 89</p>
+        </div>
+        <div class="footer-links">
+          <ul>
+            <li><a href="#">Accueil</a></li>
+            <li><a href="#">Menu</a></li>
+            <li><a href="#">À propos</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-social">
+          <ul>
+            <li>
+              <a href="#"><i class="fab fa-facebook-f"></i></a>
+            </li>
+            <li>
+              <a href="#"><i class="fab fa-twitter"></i></a>
+            </li>
+            <li>
+              <a href="#"><i class="fab fa-instagram"></i></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="bottom-bar">
+        <p>Tous droits réservés &copy; 2023 Dark Kitchen</p>
+      </div>
     </footer>
   </body>
 </html>
