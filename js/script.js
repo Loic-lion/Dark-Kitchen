@@ -1,4 +1,8 @@
-/////////// Nikko et Loic ///////////
+/*
+ *   Javascript developer group :
+ *           Loic & Nikko
+ */
+
 /********** VARIABLES **********/
 const courses = [
   {
@@ -112,6 +116,9 @@ const courses = [
 ];
 
 let sectionMain = document.querySelector("section.main_container");
+let filter; // variable pour stocker les filtres
+let triState = 0;
+const triBut = document.getElementById("sort-button");
 const buttonTous = document.getElementById("all-button");
 const buttonPoisson = document.getElementById("poisson-button");
 const buttonViande = document.getElementById("viande-button");
@@ -122,34 +129,60 @@ const cartItems = document.querySelector(".cart_items");
 const subTotal = document.querySelector(".subtotal");
 const totalItemsInCart = document.querySelector(".cart_total_items");
 let cart = JSON.parse(localStorage.getItem("CART")) || []; // Pour conserver les éléments du panier lorsque l'on rafraichit la page
-// let cart = [];
 const darkModeBut = document.querySelector(".button_darkmode");
 const body = document.querySelector("body");
-const triBut = document.getElementById("sort-button");
 
 /********** FONCTIONS **********/
+/*** Affichage ***/
+// Afficher les produits du tableau d'objets
+function display() {
+  courses.forEach((food) => {
+    let section = document.createElement("section");
+    section.setAttribute("data-category", food.category);
+    section.innerHTML = `<img src= ${food.picture} > <div class="info"><span class="title_food" > ${food.title} </span> <span class="category_food"> Catégorie: ${food.category} </span> <span class="aliments_food"> Description: ${food.description} </span> <span class="price_food"> Prix: ${food.price} </span>   <button class="button_achat" onclick="addToCart(${food.id})">Ajouter au panier</button></div>`;
+    sectionMain.appendChild(section);
+    section.setAttribute("class", "main_container_card");
+  });
+}
+
+// Réinitialiser l'affichage
+function clearDisplay() {
+  sectionMain.innerHTML = "";
+}
+
 // Mode sombre
 function darkMode() {
   body.classList.toggle("dark_mode");
 }
 
+/*** Filtres & tri ***/
 // Tri par prix
 function sortPrice() {
-  courses.sort((a, b) => (a.price > b.price ? 1 : -1));
+  if (triState == 0) {
+    courses.sort((a, b) => (a.price > b.price ? 1 : -1));
+    triState++;
+  } else {
+    courses.sort((a, b) => (a.id > b.id ? 1 : -1));
+    triState--;
+  }
+  clearDisplay();
+  display();
+  updateFilters();
 }
 
-/*** Filtres ***/
 // Tout
-function toutSections() {
+function showAllSections() {
   const sectionsAll = document.querySelectorAll("section");
 
   for (let i = 0; i < sectionsAll.length; i++) {
     sectionsAll[i].style.display = "block";
   }
+
+  filter = "tout";
 }
 
 // Poisson
-function hideNonPoissonSections() {
+function showFishSections() {
   const sections = document.querySelectorAll("section[data-category]");
 
   // Parcourir toutes les sections et cacher celles qui ne contiennent pas le mot "Poisson"
@@ -161,10 +194,12 @@ function hideNonPoissonSections() {
       sections[i].style.display = "block";
     }
   }
+
+  filter = "poisson";
 }
 
 // Viande
-function hideNonViandeSections() {
+function showMeatSections() {
   const sections = document.querySelectorAll("section[data-category]");
 
   // Parcourir toutes les sections et cacher celles qui ne contiennent pas le mot "Viande"
@@ -176,10 +211,12 @@ function hideNonViandeSections() {
       sections[i].style.display = "block";
     }
   }
+
+  filter = "viande";
 }
 
 // Vegetarien
-function hideNonVegetarienSections() {
+function showVegetarianSections() {
   const sections = document.querySelectorAll("section[data-category]");
 
   // Parcourir toutes les sections et cacher celles qui ne contiennent pas le mot "Vegetarien"
@@ -191,10 +228,12 @@ function hideNonVegetarienSections() {
       sections[i].style.display = "block";
     }
   }
+
+  filter = "vegetarien";
 }
 
 // Dessert
-function hideNonDessertSections() {
+function showDessertSections() {
   // Récupérer toutes les sections avec l'attribut "data-category"
   const sections = document.querySelectorAll("section[data-category]");
 
@@ -207,10 +246,12 @@ function hideNonDessertSections() {
       sections[i].style.display = "block";
     }
   }
+
+  filter = "dessert";
 }
 
 // Wok
-function hideNonWokSections() {
+function showWokSections() {
   const sections = document.querySelectorAll("section[data-category]");
 
   // Parcourir toutes les sections et cacher celles qui ne contiennent pas le mot "Poisson"
@@ -221,6 +262,25 @@ function hideNonWokSections() {
     } else {
       sections[i].style.display = "block";
     }
+  }
+
+  filter = "wok";
+}
+
+// fonction pour mettre à jour les filtres et afficher les résultats filtrés
+function updateFilters() {
+  if (filter == "wok") {
+    showWokSections();
+  } else if (filter == "poisson") {
+    showFishSections();
+  } else if (filter == "dessert") {
+    showDessertSections();
+  } else if (filter == "vegetarien") {
+    showVegetarianSections();
+  } else if (filter == "viande") {
+    showMeatSections();
+  } else {
+    showAllSections();
   }
 }
 
@@ -240,11 +300,10 @@ function addToCart(id) {
   updateCart();
 }
 
-// Mettre à jour le panier (=réafficher le panier et le sous-total avec les modifications effectuées)
+// Mettre à jour le panier (= réafficher le panier et le sous-total avec les modifications effectuées)
 function updateCart() {
   renderCartItems();
   renderSubTotal();
-
   // Enregistrer le panier dans le stockage local
   localStorage.setItem("CART", JSON.stringify(cart));
 }
@@ -287,7 +346,6 @@ function renderCartItems() {
 // Supprimer un élément du panier
 function removeFromCart(id) {
   cart = cart.filter((item) => item.id !== id);
-
   updateCart();
 }
 
@@ -308,31 +366,51 @@ function changeUnits(action, id) {
       units,
     };
   });
+
   updateCart();
 }
 
-function display() {
-  alert("tri");
-}
-
 /********** PROGRAMME **********/
-// Afficher les produits du tableau d'objets
-courses.forEach((food) => {
-  let section = document.createElement("section");
-  section.setAttribute("data-category", food.category);
-  section.innerHTML = `<img src= ${food.picture} > <div class="info"><span class="title_food" > ${food.title} </span> <span class="category_food"> Catégorie: ${food.category} </span> <span class="aliments_food"> Description: ${food.description} </span> <span class="price_food"> Prix: ${food.price} </span>   <button class="button_achat" onclick="addToCart(${food.id})">Ajouter au panier</button></div>`;
-  sectionMain.appendChild(section);
-  section.setAttribute("class", "main_container_card");
-});
+/*** Appels de fonctions ***/
+// Fonction d'affichage de base
+display();
 
-// Appel de fonction de mise à jour (si on rafraichit la page on garde le contenu du panier)
+// Fonction de mise à jour (si on rafraichit la page on garde le contenu du panier)
 updateCart();
 
-// Evenements
-buttonTous.addEventListener("click", toutSections);
-buttonPoisson.addEventListener("click", hideNonPoissonSections);
-buttonViande.addEventListener("click", hideNonViandeSections);
-buttonVege.addEventListener("click", hideNonVegetarienSections);
-buttonDessert.addEventListener("click", hideNonDessertSections);
-buttonWok.addEventListener("click", hideNonWokSections);
+/*** Evenements ***/
+buttonTous.addEventListener("click", showAllSections);
+buttonPoisson.addEventListener("click", showFishSections);
+buttonViande.addEventListener("click", showMeatSections);
+buttonVege.addEventListener("click", showVegetarianSections);
+buttonDessert.addEventListener("click", showDessertSections);
+buttonWok.addEventListener("click", showWokSections);
 darkModeBut.addEventListener("click", darkMode);
+triBut.addEventListener("click", sortPrice);
+
+// Récupérer l'icône du panier et la div du panier
+const cartIcon = document.querySelector("#cartshop");
+const cartContainer = document.querySelector(".cart");
+let cartState = 0;
+console.log(cartIcon);
+console.log(cartContainer);
+
+// Fonction pour afficher le panier
+function displayCart() {
+  if (cartState == 0) {
+    cartContainer.classList.add("active");
+    cartState++;
+  } else {
+    cartContainer.classList.remove("active");
+    cartState--;
+  }
+  // Ajouter la classe "active" à la div du panier pour l'afficher
+  cartContainer.classList.add("active");
+}
+
+// Ajouter un écouteur d'événement au clic sur l'icône du panier
+cartIcon.addEventListener("click", function () {
+  // Appeler la fonction pour afficher le panier
+  displayCart();
+  console.log(cartContainer);
+});

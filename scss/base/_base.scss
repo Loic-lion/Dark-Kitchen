@@ -58,15 +58,7 @@ header {
   height: 100px;
   width: 700px;
 }
-.cart {
-  position: absolute;
-  top: 0;
-  right: -300px;
-  width: 300px;
-  height: 100%;
-  background-color: white;
-  z-index: 9999;
-}
+
 nav ul {
   display: flex;
   list-style: none;
@@ -179,6 +171,7 @@ main {
 }
 
 footer {
+  background-color: #111;
   color: #fff;
   padding: 50px 0;
   font-size: 14px;
@@ -191,8 +184,6 @@ footer {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  background-color: #941616;
-  
 }
 
 .footer-info {
@@ -218,7 +209,6 @@ footer {
 .footer-links {
   display: flex;
   flex-direction: row;
-  
 }
 
 .footer-links a {
@@ -247,7 +237,21 @@ footer {
 .footer-social a:hover {
   color: #ff2b2b;
 }
+.cart {
+  height: 200px;
+  width: 200px;
+  background-color: #ccc;
+  position: fixed;
+  z-index: 9999;
+  top: 100px;
+  right: 10px;
+  overflow: scroll;
 
+  transform: translateX(300px);
+}
+.cart.active {
+  transform: translateX(-50px);
+}
 @media screen and (max-width: 768px) {
   header {
     flex-direction: column;
