@@ -53,34 +53,6 @@ table {
   border-spacing: 0;
 }
 
-
-body {
-  line-height: 1;
-}
-
-ol,
-ul {
-  list-style: none;
-}
-
-blockquote,
-q {
-  quotes: none;
-}
-
-blockquote:before,
-blockquote:after,
-q:before,
-q:after {
-  content: "";
-  content: none;
-}
-
-table {
-  border-collapse: collapse;
-  border-spacing: 0;
-}
-
 /* Reset de la feuille de style par défaut */
 * {
   margin: 0;
@@ -180,7 +152,6 @@ main {
   flex-direction: column;
   align-items: center;
 }
-
 .main_head {
   display: flex;
   flex-direction: column;
@@ -361,4 +332,4 @@ footer {
     justify-content: center;
     margin-top: 1rem;
   }
-} /*# sourceMappingURL=main.css.map */
+}/*# sourceMappingURL=main.css.map */

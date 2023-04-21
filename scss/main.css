@@ -1,3 +1,58 @@
+@charset "UTF-8";
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+
+body {
+  line-height: 1;
+}
+
+ol, ul {
+  list-style: none;
+}
+
+blockquote, q {
+  quotes: none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: "";
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
 body {
   line-height: 1;
 }
@@ -59,6 +114,16 @@ header {
   width: 700px;
 }
 
+.cart {
+  position: absolute;
+  top: 0;
+  right: -300px;
+  width: 300px;
+  height: 100%;
+  background-color: white;
+  z-index: 9999;
+}
+
 nav ul {
   display: flex;
   list-style: none;
@@ -86,37 +151,45 @@ button {
   cursor: pointer;
   transition: color 0.2s ease-in-out;
 }
+
 .bouton_triage {
   flex-direction: row;
   padding: 1rem;
   align-items: center;
   justify-content: center;
 }
+
 button:hover {
   color: #ff2b2b;
 }
+
 .bouton_triage {
-  color: rgba(66, 66, 66, 255);
+  color: rgb(66, 66, 66);
   font-weight: 900;
 }
+
 .bouton_triage:hover {
-  background-color: #cccccc77;
+  background-color: rgba(204, 204, 204, 0.4666666667);
 }
+
 .btn.remove {
   color: #ff2b2b;
 }
+
 .fa-shopping-cart {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
 }
+
 /* Main content */
 main {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
+
 .main_head {
   display: flex;
   flex-direction: column;
@@ -171,7 +244,6 @@ main {
 }
 
 footer {
-  background-color: #111;
   color: #fff;
   padding: 50px 0;
   font-size: 14px;
@@ -184,6 +256,7 @@ footer {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  background-color: #941616;
 }
 
 .footer-info {
@@ -237,21 +310,7 @@ footer {
 .footer-social a:hover {
   color: #ff2b2b;
 }
-.cart {
-  height: 200px;
-  width: 200px;
-  background-color: #ccc;
-  position: fixed;
-  z-index: 9999;
-  top: 100px;
-  right: 10px;
-  overflow: scroll;
 
-  transform: translateX(300px);
-}
-.cart.active {
-  transform: translateX(-50px);
-}
 @media screen and (max-width: 768px) {
   header {
     flex-direction: column;
